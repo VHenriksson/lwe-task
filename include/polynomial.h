@@ -16,6 +16,15 @@ public:
      */
     std::array<uint32_t, N> get_coefficients() const { return coefficients; }
 
+/**
+     * @brief Addition operator for polynomials.
+     * 
+     * This function adds two polynomials together.
+     * 
+     * @param lhs The left hand side
+     * @param rhs The right hand side
+     * @return Polynomial The result of the addition
+     */
     friend Polynomial operator+(const Polynomial &lhs, const Polynomial &rhs)
     {
         auto result_vector = std::array<uint32_t, N>();
@@ -25,6 +34,15 @@ public:
         return Polynomial(result_vector);
     }
 
+/**
+     * @brief Addition operator for polynomials.
+     * 
+     * This function adds the rhs polynomial to the lhs.
+     * 
+     * @param lhs The left hand side
+     * @param rhs The right hand side
+     * @return Polynomial The result of the addition
+     */
     Polynomial operator+=(const Polynomial &rhs)
     {
         for (size_t i = 0; i < coefficients.size(); i++) {
@@ -33,6 +51,15 @@ public:
         return *this;
     }
 
+/**
+     * @brief Subtraction operator for polynomials.
+     * 
+     * This function subtracts two polynomials.
+     * 
+     * @param lhs The left hand side
+     * @param rhs The right hand side
+     * @return Polynomial The result of the subtraction
+     */
     Polynomial operator-=(const Polynomial &rhs)
     {
         for (size_t i = 0; i < coefficients.size(); i++) {
@@ -42,9 +69,15 @@ public:
     }
 
 
-    // This should be implemented using (hardware accelerated :D ) NTT. However,
-    // in the limited time for the exercise, I was unable to understand how
-    // to find primitive 1024-roots of unity in Z_{2^32}.
+    /**
+     * @brief Multiplication operator for polynomials.
+     * 
+     * This function multiplies two polynomials together.
+     * 
+     * @param lhs The left hand side
+     * @param rhs The right hand side
+     * @return Polynomial The result of the multiplication
+     */
     friend Polynomial operator*(const Polynomial &lhs, const Polynomial &rhs)
     {
         std::array<uint32_t, N> result{};
@@ -61,6 +94,16 @@ public:
         return Polynomial(result);
     }
 
+/**
+     * @brief Equality operator for polynomials.
+     * 
+     * Two polynomials are equal if their coefficients are equal.
+     * 
+     * @param lhs The left hand side
+     * @param rhs The right hand side
+     * @return true If the polynomials are equal
+     * @return false If the polynomials are not equal
+     */
     friend bool operator==(const Polynomial &lhs, const Polynomial &rhs)
     {
         for (size_t i = 0; i < N; i++) {
@@ -91,6 +134,13 @@ public:
             this->coefficients[i] = prel_coefficients[i] - prel_coefficients[i+N];
         }
     }
+
+    /**
+     * @brief A polynomial modulo X^N + 1 with coefficients in Z_{2^32} (this approximates
+     * R/Z from TFHE).
+     * 
+     * @param coefficients The coefficients of the polynomial.
+     */
     Polynomial(const std::array<uint32_t, N>& coefficients): coefficients(coefficients) {}
 
     /**

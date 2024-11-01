@@ -8,6 +8,12 @@
 #include "cipher_text.h"
 
 template <uint16_t k, uint16_t N>
+/**
+ * @brief Represents a secret key.
+ * 
+ * This class encapsulates a secret key consisting of an array of polynomials.
+ * It provides methods for encrypting and decrypting messages.
+ */
 class SecretKey
 {
 public:
@@ -52,6 +58,15 @@ public:
         }
         cipher.b += Polynomial<N>(plain);
         return cipher;
+    }
+
+    static uint32_t prepare_plaintext(uint32_t plain)
+    {
+        plain <<= 28;
+        int32_t rounded_error = std::round(error_distribution(rd));
+        uint32_t unsigned_error = static_cast<uint32_t>(rounded_error);
+        plain += unsigned_error;
+        return plain;
     }
 
     /**
