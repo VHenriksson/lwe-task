@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <algorithm>
 #include <vector>
 #include <random>
 #include <iostream>
@@ -79,10 +80,6 @@ public:
         return plain;
     }
 
-    CipherText<k, N> multiplication_key()
-    {
-        message = key
-    }
 
 
 private:
