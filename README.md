@@ -201,3 +201,13 @@ It also seems like the standard way to use `std::random_device` is to seed some 
 
 Future Work
 -----------
+
+If I were to continue working on this repository in the future, the first thing I would do is another attempt at making FFT work. The problems I ran into appeared when I ran the algorithm on polynomials with large coefficients, so properly thinking through how this affects the algorithm would be a good first step.
+
+With the FFT in place, it would be interesting to more properly profile the code, perhaps using more advanced tools. Then it would be possible to find the bottle necks and try to reduce them one by one.
+
+One could also consider implementing more operations, such as multiplication, key-switching and bootstrapping. However, this would require a lot of work, and since there are already libraries which do this, I would probably rather try to understand them better.
+
+
+
+
