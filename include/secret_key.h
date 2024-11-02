@@ -31,9 +31,11 @@ public:
      * @brief Encrypts a given plaintext message.
      *
      * This function takes a plaintext which is an array of
-     * numbers between 0 and 15, each representing a message
-     * and encrypts it using the secret key. Encoding
-     * as a uint32_t is only to make the implementation easier.
+     * numbers between 0 and 255 (i.e. a byte), each representing
+     * a message and encrypts it using the secret key. To make the
+     * implementation easier, the numbers are assumed to be encoded
+     * as 32-bit integers, even though they only use 8 bits. They
+     * should be in the least significant bits of the 32-bit integers.
      *
      * @param plaintext The plaintext message to be encrypted.
      * @return CipherText The encrypted message.
@@ -54,7 +56,7 @@ public:
         std::normal_distribution<double> d(0, 1 << 7);
         for (size_t i = 0; i < N; i++)
         {
-            plain[i] <<= 28;
+            plain[i] <<= 24;
             int32_t rounded_error = std::round(d(rd));
             uint32_t unsigned_error = static_cast<uint32_t>(rounded_error);
             plain[i] += unsigned_error;
@@ -83,10 +85,10 @@ public:
         std::array<uint32_t, N> plain;
         for (size_t i = 0; i < N; i++)
         {
-// We center the vslue inside its interval
-            plain_with_error[i] += (1<<27);
-// Now, rounding is easy
-            plain[i] = plain_with_error[i] >> 28;
+            // We center the value inside its interval
+            plain_with_error[i] += (1<<23);
+            // Now, rounding is easy
+            plain[i] = plain_with_error[i] >> 24;
         }
         return plain;
     }

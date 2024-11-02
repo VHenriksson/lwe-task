@@ -27,9 +27,9 @@ TEST_CASE("Test encrypt add decrypt", "[Encryption]") {
 
     SECTION("Test can add two ciphertexts") {
         auto secret_key = SecretKey<2, 4>();
-        std::array<uint32_t, 4> plain_1 = {1, 2, 3, 4};
-        std::array<uint32_t, 4> plain_2 = {5, 8, 15, 0};
-        std::array<uint32_t, 4> expected_result = {6, 10, 2, 4};
+        std::array<uint32_t, 4> plain_1 = {1, 249, 10, 4};
+        std::array<uint32_t, 4> plain_2 = {5, 8, 250, 0};
+        std::array<uint32_t, 4> expected_result = {6, 1, 4, 4};
         auto cipher_1 = secret_key.encrypt(plain_1);
         auto cipher_2 = secret_key.encrypt(plain_2);
         auto decrypted = secret_key.decrypt(cipher_1 + cipher_2);
@@ -39,9 +39,8 @@ TEST_CASE("Test encrypt add decrypt", "[Encryption]") {
     SECTION("Test can add l ciphertexts (currently arround 100000)") {
         int l = 100000;
         auto secret_key = SecretKey<2, 4>();
-        std::array<uint32_t, 4> plain_1 = {1, 2, 3, 4};
-        std::array<uint32_t, 4> plain_2 = {5, 8, 15, 0};
-        std::array<uint32_t, 4> expected_result = {6, 10, 2, 4};
+        std::array<uint32_t, 4> plain_1 = {1, 249, 10, 4};
+        std::array<uint32_t, 4> plain_2 = {5, 8, 250, 0};
         auto cipher_1 = secret_key.encrypt(plain_1);
         for (size_t i = 0; i < l-1; i++)
         {
@@ -54,7 +53,7 @@ TEST_CASE("Test encrypt add decrypt", "[Encryption]") {
             for (size_t j = 0; j < plain_1.size(); j++)
             {
                 plain_1[j] += plain_2[j];
-                plain_1[j] %= 16;
+                plain_1[j] %= 256;
             }
             
         }
