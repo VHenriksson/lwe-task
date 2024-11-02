@@ -38,7 +38,7 @@ public:
      * @param plaintext The plaintext message to be encrypted.
      * @return CipherText The encrypted message.
      */
-    CipherText<k, N> encrypt(std::array<uint32_t, N> plain)
+    CipherText<k, N> encrypt(const std::array<uint32_t, N>& plain)
     {
         CipherText<k,N> cipher = {std::array<Polynomial<N>,k>(), Polynomial<N>(std::vector<uint32_t>{})};
         for (size_t i = 0; i < key.size(); i++)
@@ -51,10 +51,9 @@ public:
         std::normal_distribution<double> d(0, 1 << 7);
         for (size_t i = 0; i < N; i++)
         {
-            plain[i] <<= 28;
             int32_t rounded_error = std::round(d(rd));
             uint32_t unsigned_error = static_cast<uint32_t>(rounded_error);
-            plain[i] += unsigned_error;
+            cipher.b.data()[i] += (plain[i] << 28) + unsigned_error;
         }
         cipher.b += Polynomial<N>(plain);
         return cipher;
@@ -80,9 +79,9 @@ public:
         std::array<uint32_t, N> plain;
         for (size_t i = 0; i < N; i++)
         {
-// We center the vslue inside its interval
+            // We center the vslue inside its interval
             plain_with_error[i] += (1<<27);
-// Now, rounding is easy
+            // Now, rounding is easy
             plain[i] = plain_with_error[i] >> 28;
         }
         return plain;

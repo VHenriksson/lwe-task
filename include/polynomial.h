@@ -14,9 +14,18 @@ public:
     /**
      * @brief Getter method for the coefficients of the polynomial.
      */
-const std::array<uint32_t, N> get_coefficients() const { return coefficients; }
+    const std::array<uint32_t, N> get_coefficients() const { return coefficients; }
 
-/**
+    /**
+     * @brief Provides direct access to the polynomial coefficients.
+     * 
+     * Used for performance reasons, when direct access is needed.
+     * 
+     * @return Pointer to the start of the coefficients array.
+     */
+    uint32_t* data() { return coefficients.data(); }
+
+    /**
      * @brief Addition operator for polynomials.
      * 
      * This function adds two polynomials together.

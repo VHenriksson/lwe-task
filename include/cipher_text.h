@@ -16,6 +16,14 @@ struct CipherText
     Polynomial<N> b;
 
     /**
+     * @brief Provides direct access to the polynomial coefficients of b.
+     * 
+     * Used for performance reasons, when direct access is needed.
+     * 
+     */
+    uint32_t* b_data() { return b.data(); }
+
+    /**
      * @brief Equality operator for cipher texts.
      * 
      * Two cipher texts are equal if their polynomials are equal.
