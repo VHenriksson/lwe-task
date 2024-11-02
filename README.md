@@ -86,6 +86,8 @@ Ciphertexts are objects on the form $(A, b)$, where $A$ is the public key, and $
 Performance considerations
 --------------------------
 
+**Computation speed**:
+
 One clear performance issue with the current implementation is the lack of FFT multiplication. 
 
 Because I did not manage to get FFT to work, it gave me a bit less abilities to optimize the rest of the code. Since the c++-compiler is really clever, I often find it difficult to know how changes will affect the performance. To me, the only real way to progress is to profile the code.
@@ -100,11 +102,23 @@ One example of why I find it so important to measure is when I tried to make an 
 
 I thought that it should be possible to get rid of these two to copies, and instead add the shifted plain elements directly to the polynomial coefficients. However, in my attempt, this turned out to be slower than the current implementation.
 
+
 This might of course be because I made some error in my implementation. But it might also be that the compiler is able to optimize the code in a way that I do not fully understand. Maybe the explanation has something to do with memory locality, where the program find it easier to place the copy of `plain` close to the "old" `plain` in order to do the shifting and adding of error, and then move all of it closer to the polynomial in order to do the addition. But this is very much just speculation.
 
 The branch `direct_access_to_polynomial` contains this "optimization". 
 
-**Memory usage**:
+**Homomorphic performance**:
+
+Let us consider how many additions we can do before the noise becomes too large. For my scheme, I have chosen (and hard coded) a message size of $2^8$ per coefficient. This was fairly arbitrarily chosen; any choice would be a trade-off between the message size and the number of operations we can do, and I do not yet have a good understanding on the number of operations one would want to do.
+
+It is my understanding that addition is the "nice" operation, increasing the error the least. Thus discussing only addition is a bit misleading. However, since that is all I have implemented, this is what I will do.
+
+Let us instead think about the error from a theoretical point of view. Our initial errors has $\sigma = 2^7$ and $\Delta = 2^{24}$. The variance is $\sigma^2 = 2^{14}$. Let $m$ be the number of operations. Since variances of independent random variables add, we get
+$$2^{23} \approx \sqrt{m2^{14}} \Rightarrow 2^{46} \approx m 2^{14} \Rightarrow m \approx 2^{32}.$$
+This is a crazy amount of additions, and probably suggests that I could have chosen a smaller $\Delta$. However, this is again only the sums, and it is quite possible that multiplication and other operations would increase the error much more.
+
+Testing this in practice is not feasible. In one of my tests, I tried adding $100000$ ciphertexts, and this worked fine (as expected).
+
 
 Security Considerations
 -----------------------
