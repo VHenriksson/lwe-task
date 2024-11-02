@@ -80,7 +80,9 @@ public:
         std::array<uint32_t, N> plain;
         for (size_t i = 0; i < N; i++)
         {
+// We center the vslue inside its interval
             plain_with_error[i] += (1<<27);
+// Now, rounding is easy
             plain[i] = plain_with_error[i] >> 28;
         }
         return plain;
