@@ -14,7 +14,7 @@ public:
     /**
      * @brief Getter method for the coefficients of the polynomial.
      */
-const     std::array<uint32_t, N> get_coefficients() const { return coefficients; }
+const std::array<uint32_t, N> get_coefficients() const { return coefficients; }
 
 /**
      * @brief Addition operator for polynomials.
