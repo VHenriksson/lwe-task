@@ -48,7 +48,7 @@ public:
             cipher.a[i] = Polynomial<N>(coefficients);
             cipher.b += key[i] * cipher.a[i];
         }
-        std::normal_distribution<double> d(0, 1 << 25);
+        std::normal_distribution<double> d(0, 1 << 7);
         for (size_t i = 0; i < N; i++)
         {
             plain[i] <<= 28;

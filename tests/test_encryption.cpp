@@ -36,16 +36,18 @@ TEST_CASE("Test encrypt add decrypt", "[Encryption]") {
         REQUIRE(decrypted == expected_result);
     }
 
-    SECTION("Test can add l ciphertexts (currently 2)") {
-        int l = 2;
+    SECTION("Test can add l ciphertexts (currently arround 100000)") {
+        int l = 100000;
         auto secret_key = SecretKey<2, 4>();
         std::array<uint32_t, 4> plain_1 = {1, 2, 3, 4};
         std::array<uint32_t, 4> plain_2 = {5, 8, 15, 0};
         std::array<uint32_t, 4> expected_result = {6, 10, 2, 4};
         auto cipher_1 = secret_key.encrypt(plain_1);
-        auto cipher_2 = secret_key.encrypt(plain_2);
-        for (size_t i = 0; i < l-1; i++)
+                for (size_t i = 0; i < l-1; i++)
         {
+// We need to create a new cipher text each time
+            // in order to have independent errors
+            auto cipher_2 = secret_key.encrypt(plain_2);
             // We add multiple times. Testing the limits.
             cipher_1 += cipher_2; 
             // This code creates a reference text
