@@ -39,7 +39,7 @@ To start encrypting and decrypting, all that is needed is to initialize a `Secre
 SecretKey<k, N> sk;
 ```
 
-The message space is the set $\underbrace{\mathbb{Z}_{2^8} \times \dots \times \mathbb{Z}_{2^8}}_{N \text{ times}}$. In other words, we put one byte on each coefficient of the polynomial. Messages should be encoded in the four *least significant bits* when given to the encryption function.
+The message space is the set $\mathbb{Z}_{2^8}^N$. In other words, we put one byte on each coefficient of the polynomial. Messages should be encoded in the four *least significant bits* when given to the encryption function.
 
 ```cpp
 std::array<int, N> m = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
