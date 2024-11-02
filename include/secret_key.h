@@ -60,15 +60,6 @@ public:
         return cipher;
     }
 
-    static uint32_t prepare_plaintext(uint32_t plain)
-    {
-        plain <<= 28;
-        int32_t rounded_error = std::round(error_distribution(rd));
-        uint32_t unsigned_error = static_cast<uint32_t>(rounded_error);
-        plain += unsigned_error;
-        return plain;
-    }
-
     /**
      * @brief Decrypts a given ciphertext message.
      *
