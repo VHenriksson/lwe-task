@@ -126,6 +126,8 @@ Let us start by noting that this discussion (apart from the last comment on rand
 
 **Connection between LWE and RLWE/GLWE**:
 
+(The following renders terribly on GitHub, but perfectly fine in the VS Code preview. I can not really change it, so the reader might want to look at the source code and put it into their favourite $\LaTeX$-renderer.)
+
 If we have polynomials $$B = \sum_i^Nb_ix^i,\quad A = \sum_i^Na_ix^i,\quad S = \sum_i^Ns_ix^i,\quad M = \sum_i^Nm_ix^i,\quad E = \sum_i^Ne_ix^i$$
 then the equation
 $$B = AS + \Delta M + E$$
