@@ -80,8 +80,7 @@ For key and ciphertext generation, we use `std::random_device` for random number
 **CipherText**:
 
 Ciphertexts are objects on the form $(A, b)$, where $A$ is the public key, and $b$ the encrypted message. Here, $A$ is a list of $k$ `Polynomial` objects, each of degree $N-1$ with coefficients in $\mathbb{Z}_{2^{32}}$, and $b$ is one such polynomial.
-
- a `Polynomial` of degree $N-1$ with coefficients in $\{0,1\}$, and $b$ is a `Polynomial` of degree $N-1$ with coefficients in $\{0,1\}$. The ciphertexts are encrypted using the secret key, and can be added together.
+The ciphertexts are encrypted using the secret key, and can be added together.
 
 Performance considerations
 --------------------------
