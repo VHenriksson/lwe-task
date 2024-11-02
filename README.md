@@ -67,7 +67,7 @@ The implementation consists of three object templates:
 
 **Polynomial**:
 
-A class representing a polynomial with integer coefficients. It supports some basic operations like addition, subtraction, multiplication and equality. It uses a naive multiplciation algorithm with an O(n^2) complexity. It would be preferable to use (hardware accellerated :D ) FFT multiplication, but I could not make (even a regular one) work on the time I had.
+A class representing a polynomial modulo $x^N + 1$ with coefficients in $\mathbb{Z}_{2^{32}}$. It supports some basic operations like addition, subtraction, multiplication and equality. It uses a naive multiplciation algorithm with an O(n^2) complexity. It would be preferable to use (hardware accellerated :D ) FFT multiplication, but I could not make (even a regular one) work on the time I had.
 
 **SecretKey**:
 
