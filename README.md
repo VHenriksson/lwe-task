@@ -67,7 +67,7 @@ The implementation consists of three object templates:
 
 **Polynomial**:
 
-A class representing a polynomial modulo $x^N + 1$ with coefficients in $\mathbb{Z}_{2^{32}}$. It supports some basic operations like addition, subtraction, multiplication and equality. It uses a naive multiplciation algorithm with an O(n^2) complexity. It would be preferable to use (hardware accellerated :D ) FFT multiplication, but I could not make (even a regular one) work on the time I had.
+A class representing a polynomial modulo $x^N + 1$ with coefficients in $\mathbb{Z}_{2^{32}}$. It supports some basic operations like addition, subtraction, multiplication and equality. It uses a naive multiplication algorithm with an O(n^2) complexity. It would be preferable to use (hardware accelerated :D ) FFT multiplication, but I could not make (even a regular one) work on the time I had.
 
 **SecretKey**:
 
@@ -95,7 +95,7 @@ I did a small attempt at profiling, and produced the following flamegraph:
 
 ![Flamegraph](flamegraph_tfhe.svg)
 
-The flamegraph shows that the majority of the time is spent in the multiplication operator. The reasonable interpretation of this is that it is indeed the absense of FFT multiplication that is the bottleneck. One could probably dig deeper into this, and learn more about the performance even in the absence of FFT multiplication, but that would require more time and effort.
+The flamegraph shows that the majority of the time is spent in the multiplication operator. The reasonable interpretation of this is that it is indeed the absence of FFT multiplication that is the bottleneck. One could probably dig deeper into this, and learn more about the performance even in the absence of FFT multiplication, but that would require more time and effort.
 
 One example of why I find it so important to measure is when I tried to make an optimization which I thought would be an obvious win. Looking at the `encrypt` method in the `SecretKey` class, it currently copies the array `plain` in the function definition. Then it copies it again to create the polynomial which is added to `cipher.b`.
 
@@ -174,7 +174,7 @@ in lattice-based cryptography - Rachel Player](https://pure.royalholloway.ac.uk/
 **The Lattice Estimator**:
 
 A nice resource for estimating the parameters needed for LWE is the [Lattice Estimator](https://github.com/malb/lattice-estimator). It seems to be well trusted in the community, seeing that the [original TFHE repository](https://github.com/tfhe/tfhe) links to its predecessor.
-Looking at that, we find that the standard parameters for TFHE1024 is $N = 1024$, $q = 2^{32}$, $k = 1$ and $\sigma = 2^7$ (the standard deviation of the error distribution). Calculating the securtity estimate for these parameters I get $122$ bits, which is very close to the commonly used bar of 128.
+Looking at that, we find that the standard parameters for TFHE1024 is $N = 1024$, $q = 2^{32}$, $k = 1$ and $\sigma = 2^7$ (the standard deviation of the error distribution). Calculating the security estimate for these parameters I get $122$ bits, which is very close to the commonly used bar of 128.
 
 For this implementation, I have hard coded $\sigma = 2^7$ and $q = 2^{32}$. We note that $N = 1024$ and $k = 1$ will be sufficient in this situation (depending on the needs of the user). The user may use other combinations of $N$ and $k$.
 
@@ -196,7 +196,7 @@ Let $x$ be the size of the problem, and $\epsilon < 1/2$ be a parameter. Then th
 
 **Randomness**:
 
-It should be noted that `std::random_device` is not guaranteed to provide good randomness. For instance, the standard implementation on linux is to read from `/dev/urandom`, which is generally a good source of randomness. However, `/dev/urandom` does not know whether it has enough avaialble entropy, so the quality may deteriorate if a lot of randomness is required. The likelyhood of this being a problem depends on the system.
+It should be noted that `std::random_device` is not guaranteed to provide good randomness. For instance, the standard implementation on linux is to read from `/dev/urandom`, which is generally a good source of randomness. However, `/dev/urandom` does not know whether it has enough available entropy, so the quality may deteriorate if a lot of randomness is required. The likelihood of this being a problem depends on the system.
 
 It also seems like the standard way to use `std::random_device` is to seed some other pseudo-random number generator (such as the merseinne twister in `std::mt19937`) with it. I am unsure if this is done only for performance reasons, or if there is some underlying problem with how `std::random_device` works (e.g. the randomness not being whitened enough). Until I better understand if there are security issues with `std::random_device`, I believe using it directly should be more secure (at least on a system with good randomness availability).
 
@@ -207,7 +207,7 @@ If I were to continue working on this repository in the future, the first thing 
 
 With the FFT in place, it would be interesting to more properly profile the code, perhaps using more advanced tools. Then it would be possible to find the bottle necks and try to reduce them one by one.
 
-One could also consider implementing more operations, such as multiplication, key-switching and bootstrapping. However, this would require a lot of work, and since there are already libraries which do this, I would probably rather try to understand the alredy existing libraries codebases better.
+One could also consider implementing more operations, such as multiplication, key-switching and bootstrapping. However, this would require a lot of work, and since there are already libraries which do this, I would probably rather try to understand the already existing libraries codebases better.
 
 
 
