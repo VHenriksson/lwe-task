@@ -43,9 +43,9 @@ TEST_CASE("Test encrypt add decrypt", "[Encryption]") {
         std::array<uint32_t, 4> plain_2 = {5, 8, 15, 0};
         std::array<uint32_t, 4> expected_result = {6, 10, 2, 4};
         auto cipher_1 = secret_key.encrypt(plain_1);
-                for (size_t i = 0; i < l-1; i++)
+        for (size_t i = 0; i < l-1; i++)
         {
-// We need to create a new cipher text each time
+            // We need to create a new cipher text each time
             // in order to have independent errors
             auto cipher_2 = secret_key.encrypt(plain_2);
             // We add multiple times. Testing the limits.
