@@ -1,9 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <algorithm>
-#include <vector>
 #include <random>
-#include <iostream>
 #include "polynomial.h"
 #include "cipher_text.h"
 
@@ -58,6 +56,12 @@ public:
         {
             plain[i] <<= 24;
             int32_t rounded_error = std::round(d(rd));
+            // We use unsigned integers, since their overflow is well defined.
+            // In practice, $-m$ (as a signed integer) is implemented the same
+            // as the inverse of $m$ in Z_{2^32} (as an unsigned integer).
+            // Thus, it makes sense to consider unsigned errors. They will act
+            // the same as signed errors on signed integers, only with better
+            // overflow behaviour.
             uint32_t unsigned_error = static_cast<uint32_t>(rounded_error);
             plain[i] += unsigned_error;
         }
@@ -96,7 +100,7 @@ public:
 
 
 private:
-    // This is not generally crpytographically secure, since the random device depends on the underlying system.
+    // This is not generally cryptographically secure, since the random device depends on the underlying system.
     // One should really use e.g. OpenSSL for this, but I have avoided it in order to keep the code self-contained.
     // (Of course, even OpenSSL may be a bad idea if the underlying system is unable to generate enough entropy.)
     std::random_device rd;
