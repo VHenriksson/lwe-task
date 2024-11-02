@@ -48,6 +48,9 @@ public:
             cipher.a[i] = Polynomial<N>(coefficients);
             cipher.b += key[i] * cipher.a[i];
         }
+        // Using the error associated with TFHE1024
+        // See e.g. the Lattice Estimator
+        // https://github.com/malb/lattice-estimator
         std::normal_distribution<double> d(0, 1 << 7);
         for (size_t i = 0; i < N; i++)
         {
