@@ -198,7 +198,7 @@ Let $x$ be the size of the problem, and $\epsilon < 1/2$ be a parameter. Then th
 
 It should be noted that `std::random_device` is not guaranteed to provide good randomness. For instance, the standard implementation on linux is to read from `/dev/urandom`, which is generally a good source of randomness. However, `/dev/urandom` does not know whether it has enough avaialble entropy, so the quality may deteriorate if a lot of randomness is required. The likelyhood of this being a problem depends on the system.
 
-It also seems like the standard way to use `std::random_device` is to seed some other pseudo-random number generator (such as the merseinne twister in `std::mt19937`) with it. I am unsure if this is done only for performance reasons, or if there is some underlying problem with how `std::random_device` works (e.g. the randomness not being whitened enough, but with `dev/urandom` this should not be a problem). Until I better understand if there are security issues with `std::random_device`, I believe using it directly should be more secure (at least on a system with good randomness availability).
+It also seems like the standard way to use `std::random_device` is to seed some other pseudo-random number generator (such as the merseinne twister in `std::mt19937`) with it. I am unsure if this is done only for performance reasons, or if there is some underlying problem with how `std::random_device` works (e.g. the randomness not being whitened enough). Until I better understand if there are security issues with `std::random_device`, I believe using it directly should be more secure (at least on a system with good randomness availability).
 
 Future Work
 -----------
