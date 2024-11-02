@@ -51,10 +51,9 @@ struct CipherText
      */
     friend CipherText operator+(const CipherText& lhs, const CipherText& rhs){
         CipherText<k,N> result = {std::array<Polynomial<N>,k>(), Polynomial<N>(std::vector<uint32_t>{})};
-        std::transform(lhs.a.begin(), lhs.a.end(), rhs.a.begin(), result.a.begin(),
-                [](const Polynomial<N>& lhs_a_poly, const Polynomial<N>& rhs_b_poly) {
-                    return lhs_a_poly + rhs_b_poly;
-                }); 
+        for (size_t i = 0; i < k; i++) {
+            result.a[i] = lhs.a[i] + rhs.a[i];
+        }
         result.b = lhs.b + rhs.b;
         return result;
     }
@@ -68,10 +67,9 @@ struct CipherText
      * @return CipherText The result
      */
     friend CipherText operator+=(CipherText& lhs, const CipherText& rhs){
-        std::transform(lhs.a.begin(), lhs.a.end(), rhs.a.begin(), lhs.a.begin(),
-                [](const Polynomial<N>& lhs_a_poly, const Polynomial<N>& rhs_b_poly) {
-                    return lhs_a_poly + rhs_b_poly;
-                });
+        for (size_t i = 0; i < k; i++) {
+            lhs.a[i] += rhs.a[i];
+        }
         lhs.b += rhs.b;
         return lhs;
     }
