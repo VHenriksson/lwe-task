@@ -28,7 +28,7 @@ const std::array<uint32_t, N> get_coefficients() const { return coefficients; }
     friend Polynomial operator+(const Polynomial &lhs, const Polynomial &rhs)
     {
         auto result_vector = std::array<uint32_t, N>();
-        for (size_t i = 0; i < lhs.coefficients.size(); i++) {
+        for (size_t i = 0; i < N; i++) {
             result_vector[i] = lhs.coefficients[i] + rhs.coefficients[i];
         }
         return Polynomial(result_vector);
@@ -45,7 +45,7 @@ const std::array<uint32_t, N> get_coefficients() const { return coefficients; }
      */
     Polynomial operator+=(const Polynomial &rhs)
     {
-        for (size_t i = 0; i < coefficients.size(); i++) {
+        for (size_t i = 0; i < N; i++) {
             coefficients[i] += rhs.coefficients[i];
         }
         return *this;
@@ -62,7 +62,7 @@ const std::array<uint32_t, N> get_coefficients() const { return coefficients; }
      */
     Polynomial operator-=(const Polynomial &rhs)
     {
-        for (size_t i = 0; i < coefficients.size(); i++) {
+        for (size_t i = 0; i < N; i++) {
             coefficients[i] -= rhs.coefficients[i];
         }
         return *this;
@@ -94,7 +94,7 @@ const std::array<uint32_t, N> get_coefficients() const { return coefficients; }
         return Polynomial(result);
     }
 
-/**
+    /**
      * @brief Equality operator for polynomials.
      * 
      * Two polynomials are equal if their coefficients are equal.
