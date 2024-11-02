@@ -41,7 +41,7 @@ public:
     CipherText<k, N> encrypt(std::array<uint32_t, N> plain)
     {
         CipherText<k,N> cipher = {std::array<Polynomial<N>,k>(), Polynomial<N>(std::vector<uint32_t>{})};
-        for (size_t i = 0; i < key.size(); i++)
+        for (size_t i = 0; i < k; i++)
         {
             std::vector<uint32_t> coefficients(N);
             std::generate(coefficients.begin(), coefficients.end(), [this]() { return rd(); });
