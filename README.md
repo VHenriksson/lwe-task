@@ -81,6 +81,24 @@ Ciphertexts are objects on the form $(A, b)$, where $A$ is the public key, and $
 
  a `Polynomial` of degree $N-1$ with coefficients in $\{0,1\}$, and $b$ is a `Polynomial` of degree $N-1$ with coefficients in $\{0,1\}$. The ciphertexts are encrypted using the secret key, and can be added together.
 
+Performance considerations
+--------------------------
+
+One clear performance issue with the current implementation is the lack of FFT multiplication. 
+
+Because I did not manage to get FFT to work, it gave me a bit less abilities to optimize the rest of the code. Since the c++-compiler is really clever, I often find it difficult to know how changes will affect the performance. To me, the only real way to progress is to profile the code.
+
+I did a small attempt at profiling, and produced the following flamegraph:
+
+![Flamegraph](flamegraph_tfhe.svg)
+
+The flamegraph shows that the majority of the time is spent in the multiplication operator. The reasonable interpretation of this is that it is indeed the absense of FFT multiplication that is the bottleneck. One could probably dig deeper into this, and learn more about the performance even in the absence of FFT multiplication, but that would require more time and effort.
+
+One example of why I find it so important to measure is when I tried to make an optimization which I thought would be an obvious win. I have checked in an published the optimization in the branch `direct_access_to_polynomial`. Looking at the `encrypt` method in the `SecretKey` class, it currently copies the array `plain` in the function definition. Then it copies it again to create the polynomial which is added to `cipher.b`.
+
+I thought that it should be possible to get rid of these two to copies, and instead add the shifted plain elements directly to the polynomial coefficients. However, in my attempt, this turned out to be slower than the current implementation.
+
+This might of course be because I made some error in my implementation. But it might also be that the compiler is able to optimize the code in a way that I do not fully understand. Maybe the explanation has something to do with memory locality, where the program find it easier to place the copy of `plain` close to the "old" `plain` in order to do the shifting and adding of error, and then move all of it closer to the polynomial in order to do the addition. But this is very much just speculation.
 
 
 Security Parameters

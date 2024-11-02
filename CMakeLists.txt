@@ -8,6 +8,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     add_compile_options(-O3)
 elseif(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_options(-O0 -g)
+    # This ended up being the same as 'Debug', but I keep it
+    # partly because it is conceptually nice, and partly since
+    # it might be different in the future.
+elseif(CMAKE_BUILD_TYPE STREQUAL "Profile")
+    add_compile_options(-O0 -g)
 endif()
 
 add_subdirectory(src)
