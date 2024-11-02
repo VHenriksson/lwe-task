@@ -96,7 +96,7 @@ I did a small attempt at profiling, and produced the following flamegraph:
 
 The flamegraph shows that the majority of the time is spent in the multiplication operator. The reasonable interpretation of this is that it is indeed the absense of FFT multiplication that is the bottleneck. One could probably dig deeper into this, and learn more about the performance even in the absence of FFT multiplication, but that would require more time and effort.
 
-One example of why I find it so important to measure is when I tried to make an optimization which I thought would be an obvious win. I have checked in an published the optimization in the branch `direct_access_to_polynomial`. Looking at the `encrypt` method in the `SecretKey` class, it currently copies the array `plain` in the function definition. Then it copies it again to create the polynomial which is added to `cipher.b`.
+One example of why I find it so important to measure is when I tried to make an optimization which I thought would be an obvious win. Looking at the `encrypt` method in the `SecretKey` class, it currently copies the array `plain` in the function definition. Then it copies it again to create the polynomial which is added to `cipher.b`.
 
 I thought that it should be possible to get rid of these two to copies, and instead add the shifted plain elements directly to the polynomial coefficients. However, in my attempt, this turned out to be slower than the current implementation.
 
