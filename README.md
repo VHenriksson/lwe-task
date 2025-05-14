@@ -1,7 +1,7 @@
 Learning With Errors (or by making them)
 ========================================
 
-The following repository contains a simple (and most likely not secure) implementation of a homomorphic encryption scheme based on the Learning With Errors (LWE) problem.
+The following repository contains a simple (and most likely not secure) implementation of parts of a homomorphic encryption scheme based on the Learning With Errors (LWE) problem.
 
 **Note**: This README relies heavily on $\LaTeX$-style math notation. It seems to render fine on GitHub and in the VS Code markdown preview, but I have not tested it elsewhere.
 
